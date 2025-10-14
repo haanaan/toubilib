@@ -55,3 +55,15 @@ services:
     networks:
       - toubilib.net
 
+  # service toubiauth.db : base de données postgresql pour les utilisateurs
+
+  toubiauth.db:
+      image: 'postgres:latest'
+      env_file: ./toubiauthdb.env
+      ports:
+        - '5433:5432'
+      networks:
+        - toubilib.net
+      volumes:
+        - ./sql:/var/sql
+

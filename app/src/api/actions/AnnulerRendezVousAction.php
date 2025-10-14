@@ -40,7 +40,7 @@ final class AnnulerRendezVousAction
             if (stripos($msg, 'inexistant') !== false) {
                 $status = 404;
             } elseif (
-                stripos($msg, 'déjà') !== false ||
+                stripos($msg, 'deja') !== false ||
                 stripos($msg, 'annul') !== false ||
                 stripos($msg, 'Impossible') !== false
             ) {

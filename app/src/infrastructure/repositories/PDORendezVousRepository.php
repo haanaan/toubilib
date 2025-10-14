@@ -13,6 +13,18 @@ class PDORendezVousRepository implements RendezVousRepositoryInterface
     {
     }
 
+    private array $etatToStatus = [
+        'prevu' => 0,
+        'confirme' => 1,
+        'annule' => 2,
+    ];
+
+    private array $statusToEtat = [
+        0 => 'prevu',
+        1 => 'confirme',
+        2 => 'annule',
+    ];
+
     public function findById(string $id): ?RendezVous
     {
         $sql = "SELECT id, praticien_id, patient_id, patient_email,
@@ -25,6 +37,8 @@ class PDORendezVousRepository implements RendezVousRepositoryInterface
         if (!$r)
             return null;
 
+        $etat = $this->statusToEtat[(int) $r['status']] ?? 'prevu';
+
         return new RendezVous(
             (string) $r['id'],
             (string) $r['praticien_id'],
@@ -33,6 +47,9 @@ class PDORendezVousRepository implements RendezVousRepositoryInterface
             $r['motif_visite'] ?? null,
             $r['patient_id'] ?? null,
             $r['patient_email'] ?? null,
+            $etat,
+            isset($r['date_annulation']) ? new \DateTimeImmutable($r['date_annulation']) : null,
+            $r['raison_annulation'] ?? null
         );
     }
 
@@ -66,23 +83,42 @@ class PDORendezVousRepository implements RendezVousRepositoryInterface
 
     public function save(RendezVous $rdv): void
     {
-        $sql = "INSERT INTO public.rdv (
-                    id, praticien_id, patient_id, patient_email,
-                    date_heure_debut, date_heure_fin, motif_visite
-                ) VALUES (
-                    :id, :praticien_id, :patient_id, :patient_email,
-                    :date_heure_debut, :date_heure_fin, :motif_visite
-                )";
+        $status = $this->etatToStatus[$rdv->getEtat()] ?? 0;
+
+        $sql = "UPDATE public.rdv
+                SET status = :status,
+                    motif_visite = :motif,
+                    patient_id = :patient_id,
+                    patient_email = :patient_email,
+                    date_heure_debut = :debut,
+                    date_heure_fin = :fin
+                WHERE id = :id";
+
         $st = $this->pdo->prepare($sql);
         $st->execute([
-            ':id' => $rdv->getId(),
-            ':praticien_id' => $rdv->getPatientId(),
+            ':status' => $status,
+            ':motif' => $rdv->getMotif(),
             ':patient_id' => $rdv->getPatientId(),
             ':patient_email' => $rdv->getPatientEmail(),
-            ':date_heure_debut' => $rdv->getDebut()->format('Y-m-d H:i:s'),
-            ':date_heure_fin' => $rdv->getFin()->format('Y-m-d H:i:s'),
-            ':motif_visite' => $rdv->getMotif(),
+            ':debut' => $rdv->getDebut()->format('Y-m-d H:i:s'),
+            ':fin' => $rdv->getFin()->format('Y-m-d H:i:s'),
+            ':id' => $rdv->getId(),
         ]);
+
+        if ($rdv->getEtat() === 'annule') {
+            $sql2 = "UPDATE public.rdv
+                     SET motif_visite = :motif,
+                         status = :status,
+                         date_heure_fin = :fin
+                     WHERE id = :id";
+            $st2 = $this->pdo->prepare($sql2);
+            $st2->execute([
+                ':status' => $status,
+                ':motif' => $rdv->getMotif(),
+                ':fin' => $rdv->getFin()->format('Y-m-d H:i:s'),
+                ':id' => $rdv->getId(),
+            ]);
+        }
     }
 
     public function findForPraticienBetween(string $praticienId, \DateTimeImmutable $from, \DateTimeImmutable $to): array
