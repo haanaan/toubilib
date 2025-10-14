@@ -15,7 +15,10 @@ use toubilib\core\application\usecases\AgendaPraticienInterface;
 use toubilib\core\application\usecases\ServiceRendezVous;
 use toubilib\core\application\usecases\ServiceRendezVousInterface;
 
-use function DI\autowire;
+use toubilib\core\domain\entities\praticien\repositories\UserRepositoryInterface;
+use toubilib\infrastructure\repositories\UserRepository;
+use toubilib\core\application\usecases\AuthenticateUser;
+
 
 return [
     // 3 connexions PDO
@@ -51,4 +54,9 @@ return [
             $c->get(PraticienRepositoryInterface::class),
             $c->get(RendezVousRepositoryInterface::class)
         ),
+    UserRepositoryInterface::class => static fn($c)
+        => new UserRepository($c->get('pdo.pat')),
+
+    AuthenticateUser::class => static fn($c)
+        => new AuthenticateUser($c->get(UserRepositoryInterface::class)),
 ];

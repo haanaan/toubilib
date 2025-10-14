@@ -33,6 +33,15 @@ services:
     volumes:
       - ./sql:/var/sql
 
+  toubipat.db:
+    image: 'postgres:latest'
+    env_file: ./toubipatientdb.env
+    ports:
+      - '5435:5432'
+    networks:
+      - toubilib.net
+    volumes:
+      - ./sql:/var/sql
 
   toubirdv.db:
      image: 'postgres:latest'
