@@ -51,7 +51,7 @@ return function (App $app): void {
             return $response->withStatus(401)->withHeader('Content-Type', 'application/json');
         }
     });
-    $app->post('/signin', SigninAction::class);
+    // $app->post('/signin', SigninAction::class);
 
 
 };
