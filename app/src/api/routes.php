@@ -9,7 +9,12 @@ use toubilib\api\actions\{
     GetRendezVousAction,
     AnnulerRendezVousAction,
     ConsulterAgendaAction,
+    SigninAction,
 };
+use toubilib\core\application\usecases\AuthenticationProvider;
+use toubilib\core\domain\entities\exceptions\AuthenticationException;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 
 return function (App $app): void {
     $app->get(
@@ -24,6 +29,29 @@ return function (App $app): void {
     $app->get('/rendezvous/{id}', GetRendezVousAction::class);
     $app->delete('/rendezvous/{id}', AnnulerRendezVousAction::class);
     $app->get('/praticiens/{id}/agenda', ConsulterAgendaAction::class);
+
+    $app->post('/signin', function (Request $request, Response $response) use ($app) {
+        $params = (array) $request->getParsedBody();
+
+        $email = $params['email'] ?? '';
+        $password = $params['password'] ?? '';
+
+        /** @var AuthenticationProvider $authProvider */
+        $authProvider = $app->getContainer()->get(AuthenticationProvider::class);
+
+        try {
+            $authTokensDTO = $authProvider->signin($email, $password);
+            $payload = json_encode($authTokensDTO);
+
+            $response->getBody()->write($payload);
+            return $response->withHeader('Content-Type', 'application/json');
+        } catch (AuthenticationException $ex) {
+            $error = ['error' => $ex->getMessage()];
+            $response->getBody()->write(json_encode($error));
+            return $response->withStatus(401)->withHeader('Content-Type', 'application/json');
+        }
+    });
+    $app->post('/signin', SigninAction::class);
 
 
 };

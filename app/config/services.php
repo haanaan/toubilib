@@ -19,6 +19,9 @@ use toubilib\core\domain\entities\praticien\repositories\UserRepositoryInterface
 use toubilib\infrastructure\repositories\UserRepository;
 use toubilib\core\application\usecases\AuthenticateUser;
 
+use toubilib\core\application\usecases\JwtService;
+use toubilib\core\application\usecases\AuthenticationProvider;
+
 
 return [
     // 3 connexions PDO
@@ -57,6 +60,21 @@ return [
     UserRepositoryInterface::class => static fn($c)
         => new UserRepository($c->get('pdo.pat')),
 
-    AuthenticateUser::class => static fn($c)
-        => new AuthenticateUser($c->get(UserRepositoryInterface::class)),
+    JwtService::class => static function (ContainerInterface $c): JwtService {
+        $jwt = $c->get('settings')['jwt'] ?? [];
+        $secret = $jwt['secret'] ?? 'change-me-in-env';
+        $algo = $jwt['algo'] ?? 'HS256';
+        $access = (int) ($jwt['access_ttl'] ?? 3600);
+        $refresh = (int) ($jwt['refresh_ttl'] ?? 1209600);
+        return new JwtService($secret, $algo, $access, $refresh);
+    },
+
+    AuthenticateUser::class => static fn(ContainerInterface $c) =>
+        new AuthenticateUser($c->get(UserRepositoryInterface::class)),
+
+    AuthenticationProvider::class => static fn(ContainerInterface $c) =>
+        new AuthenticationProvider(
+            $c->get(AuthenticateUser::class),
+            $c->get(JwtService::class)
+        ),
 ];
