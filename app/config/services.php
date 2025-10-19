@@ -25,7 +25,7 @@ use toubilib\core\application\usecases\AuthenticationProvider;
 
 
 return [
-    // 3 connexions PDO
+    // connexions PDO
     'pdo.prat' => static function (ContainerInterface $c): PDO {
         $db = $c->get('settings')['db_prat'];
         $dsn = sprintf('%s:host=%s;port=%d;dbname=%s', $db['driver'], $db['host'], $db['port'], $db['name']);
@@ -41,6 +41,12 @@ return [
         $dsn = sprintf('%s:host=%s;port=%d;dbname=%s', $db['driver'], $db['host'], $db['port'], $db['name']);
         return new PDO($dsn, $db['user'], $db['pass'], $db['options']);
     },
+    'pdo.auth' => static function (ContainerInterface $c): PDO {
+        $db = $c->get('settings')['db_auth'];
+        $dsn = sprintf('%s:host=%s;port=%d;dbname=%s', $db['driver'], $db['host'], $db['port'], $db['name']);
+        return new PDO($dsn, $db['user'], $db['pass'], $db['options']);
+    },
+
 
         // câblage deps
     PraticienRepositoryInterface::class => static fn($c)
@@ -63,7 +69,7 @@ return [
             $c->get(RendezVousRepositoryInterface::class)
         ),
     UserRepositoryInterface::class => static fn($c)
-        => new UserRepository($c->get('pdo.pat')),
+        => new UserRepository($c->get('pdo.auth')),
 
     JwtService::class => static function (ContainerInterface $c): JwtService {
         $jwt = $c->get('settings')['jwt'] ?? [];

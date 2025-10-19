@@ -29,10 +29,8 @@ return function (App $app): void {
     $app->get('/rendezvous/{id}', GetRendezVousAction::class);
     $app->delete('/rendezvous/{id}', AnnulerRendezVousAction::class);
     $app->get('/praticiens/{id}/agenda', ConsulterAgendaAction::class);
-
-    $app->post('/signin', function (Request $request, Response $response) use ($app) {
+    $app->post('/signin', function ($request, $response) use ($app) {
         $params = (array) $request->getParsedBody();
-
         $email = $params['email'] ?? '';
         $password = $params['password'] ?? '';
 
@@ -45,13 +43,14 @@ return function (App $app): void {
 
             $response->getBody()->write($payload);
             return $response->withHeader('Content-Type', 'application/json');
-        } catch (AuthenticationException $ex) {
+        } catch (\Exception $ex) {
             $error = ['error' => $ex->getMessage()];
             $response->getBody()->write(json_encode($error));
             return $response->withStatus(401)->withHeader('Content-Type', 'application/json');
         }
     });
-    // $app->post('/signin', SigninAction::class);
+
+
 
 
 };

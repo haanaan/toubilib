@@ -1,50 +1,39 @@
 <?php
-
 namespace toubilib\infrastructure\repositories;
 
 use toubilib\core\domain\entities\praticien\User;
 use toubilib\core\domain\entities\praticien\repositories\UserRepositoryInterface;
 use PDO;
 
-
 class UserRepository implements UserRepositoryInterface
 {
-    private array $users = [
-        [
-            'id' => 1,
-            'email' => 'user@example.com',
-            'passwordHash' => password_hash('password123', PASSWORD_BCRYPT),
-            'role' => 'user',
-        ],
-        [
-            'id' => 2,
-            'email' => 'admin@example.com',
-            'passwordHash' => password_hash('admin123', PASSWORD_BCRYPT),
-            'role' => 'admin',
-        ],
-    ];
-
-
-    public function __construct(PDO $pdo)
+    public function __construct(private PDO $pdoAuth)
     {
-        $this->pdo = $pdo;
     }
-
-
 
     public function findByEmail(string $email): ?User
     {
-        foreach ($this->users as $userData) {
-            if ($userData['email'] === $email) {
-                return new User(
-                    id: $userData['id'],
-                    email: $userData['email'],
-                    passwordHash: $userData['passwordHash'],
-                    role: $userData['role']
-                );
-            }
+        $stmt = $this->pdoAuth->prepare(
+            "SELECT id, email, password, role FROM users WHERE email = :email LIMIT 1"
+        );
+        $stmt->execute([':email' => $email]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+            return null;
         }
 
-        return null;
+        $role = match ((int) $row['role']) {
+            1 => 'patient',
+            10 => 'praticien',
+            default => 'user'
+        };
+
+        return new User(
+            id: $row['id'],
+            email: $row['email'],
+            passwordHash: $row['password'],
+            role: $role
+        );
     }
 }
