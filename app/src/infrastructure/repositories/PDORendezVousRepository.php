@@ -123,11 +123,11 @@ class PDORendezVousRepository implements RendezVousRepositoryInterface
 
     public function findForPraticienBetween(string $praticienId, \DateTimeImmutable $from, \DateTimeImmutable $to): array
     {
-        $sql = "SELECT * FROM rendezvous
-            WHERE praticien_id = :praticienId
-              AND debut >= :from
-              AND fin <= :to
-            ORDER BY debut";
+        $sql = "SELECT * FROM rdv
+        WHERE praticien_id = :praticienId
+          AND date_heure_debut >= :from
+          AND date_heure_fin <= :to
+        ORDER BY date_heure_debut";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([
             ':praticienId' => $praticienId,
@@ -139,12 +139,12 @@ class PDORendezVousRepository implements RendezVousRepositoryInterface
         return array_map(fn($r) => new RendezVous(
             $r['id'],
             $r['praticien_id'],
-            new \DateTimeImmutable($r['debut']),
-            new \DateTimeImmutable($r['fin']),
-            $r['motif'] ?? null,
+            new \DateTimeImmutable($r['date_heure_debut']),
+            new \DateTimeImmutable($r['date_heure_fin']),
+            $r['motif_visite'] ?? null,
             $r['patient_id'] ?? null,
             $r['patient_email'] ?? null,
-            $r['etat'] ?? 'prevu',
+            (int) ($r['status'] ?? 0) === 2 ? 'annule' : ((int) ($r['status'] ?? 0) === 1 ? 'confirme' : 'prevu'),
             isset($r['date_annulation']) ? new \DateTimeImmutable($r['date_annulation']) : null,
             $r['raison_annulation'] ?? null
         ), $rows);

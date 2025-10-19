@@ -64,11 +64,11 @@ class RendezVous
     public function annuler(?string $raison = null): void
     {
         if ($this->etat === 'annule') {
-            throw new DomainException('Rendez-vous déjà annulé.');
+            throw new DomainException('Rendez-vous deja annule.');
         }
 
         if ($this->debut <= new \DateTimeImmutable()) {
-            throw new DomainException('Impossible d\'annuler un rendez-vous passé ou en cours.');
+            throw new DomainException('Impossible d\'annuler un rendez-vous passe ou en cours.');
         }
 
         $this->etat = 'annule';

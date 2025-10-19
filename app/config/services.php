@@ -14,6 +14,7 @@ use toubilib\core\application\usecases\AgendaPraticien;
 use toubilib\core\application\usecases\AgendaPraticienInterface;
 use toubilib\core\application\usecases\ServiceRendezVous;
 use toubilib\core\application\usecases\ServiceRendezVousInterface;
+use toubilib\api\actions\ConsulterAgendaAction;
 
 use toubilib\core\domain\entities\praticien\repositories\UserRepositoryInterface;
 use toubilib\infrastructure\repositories\UserRepository;
@@ -47,6 +48,10 @@ return [
     ServicePraticienInterface::class => static fn($c)
         => new ServicePraticien($c->get(PraticienRepositoryInterface::class)),
 
+    ConsulterAgendaAction::class => static fn($c)
+        => new ConsulterAgendaAction(
+            $c->get(ServiceRendezVousInterface::class)
+        ),
     RendezVousRepositoryInterface::class => static fn($c)
         => new PDORendezVousRepository($c->get('pdo.rdv')),
     AgendaPraticienInterface::class => static fn($c)
