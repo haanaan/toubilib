@@ -8,24 +8,24 @@ use toubilib\api\actions\{
     GetCreneauxPraticienAction,
     GetRendezVousAction
 };
-use toubilib\core\application\usecases\{
-    ServicePraticienInterface,
-    AgendaPraticienInterface
+use toubilib\core\application\ports\api\{
+    PraticienServiceInterface,
+    AgendaPraticienServiceInterface
 };
 
 return [
-    ListerPraticiensAction::class => static fn (ContainerInterface $c)
+    ListerPraticiensAction::class => static fn(ContainerInterface $c)
         => new ListerPraticiensAction(
-            $c->get(ServicePraticienInterface::class),
-            $c->get(AgendaPraticienInterface::class)
+            $c->get(PraticienServiceInterface::class),
+            $c->get(AgendaPraticienServiceInterface::class)
         ),
 
-    GetPraticienAction::class => static fn (ContainerInterface $c)
-        => new GetPraticienAction($c->get(ServicePraticienInterface::class)),
+    GetPraticienAction::class => static fn(ContainerInterface $c)
+        => new GetPraticienAction($c->get(PraticienServiceInterface::class)),
 
-    GetCreneauxPraticienAction::class => static fn (ContainerInterface $c)
-        => new GetCreneauxPraticienAction($c->get(AgendaPraticienInterface::class)),
+    GetCreneauxPraticienAction::class => static fn(ContainerInterface $c)
+        => new GetCreneauxPraticienAction($c->get(AgendaPraticienServiceInterface::class)),
 
-    GetRendezVousAction::class => static fn (ContainerInterface $c)
-        => new GetRendezVousAction($c->get(AgendaPraticienInterface::class)),
+    GetRendezVousAction::class => static fn(ContainerInterface $c)
+        => new GetRendezVousAction($c->get(AgendaPraticienServiceInterface::class)),
 ];

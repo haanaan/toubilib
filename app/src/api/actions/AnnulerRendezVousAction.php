@@ -80,6 +80,6 @@ return [
     \toubilib\core\application\ports\api\spi\repositoryInterfaces\PraticienRepositoryInterface::class
     => autowire(\toubilib\infrastructure\repositories\PDOPraticienRepository::class),
 
-    RendezVousServiceInterface::class => autowire(\toubilib\core\application\usecases\ServiceRendezVous::class),
+    RendezVousServiceInterface::class => autowire(\toubilib\core\application\usecases\RendezVousService::class),
 
 ];

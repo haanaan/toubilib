@@ -7,7 +7,7 @@ use toubilib\api\dto\PraticienDTO;
 use toubilib\core\application\ports\api\spi\repositoryInterfaces\PraticienRepositoryInterface;
 use toubilib\core\application\ports\api\PraticienServiceInterface;
 
-class ServicePraticien implements PraticienServiceInterface
+class PraticienService implements PraticienServiceInterface
 {
     public function __construct(private PraticienRepositoryInterface $repo)
     {

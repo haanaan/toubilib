@@ -3,25 +3,36 @@ declare(strict_types=1);
 
 use Psr\Container\ContainerInterface;
 
-use toubilib\core\domain\entities\praticien\repositories\PraticienRepositoryInterface;
-use toubilib\infrastructure\repositories\PDOPraticienRepository;
-use toubilib\core\application\usecases\ServicePraticien;
-use toubilib\core\application\usecases\ServicePraticienInterface;
+use toubilib\core\application\ports\api\spi\repositoryInterfaces\{
+    PraticienRepositoryInterface,
+    RendezVousRepositoryInterface,
+    UserRepositoryInterface
+};
 
-use toubilib\core\domain\entities\rdv\repositories\RendezVousRepositoryInterface;
-use toubilib\infrastructure\repositories\PDORendezVousRepository;
-use toubilib\core\application\usecases\AgendaPraticien;
-use toubilib\core\application\usecases\AgendaPraticienInterface;
-use toubilib\core\application\usecases\ServiceRendezVous;
-use toubilib\core\application\usecases\ServiceRendezVousInterface;
+use toubilib\infrastructure\repositories\{
+    PDOPraticienRepository,
+    PDORendezVousRepository
+};
+
+use toubilib\core\application\ports\api\{
+    PraticienServiceInterface,
+    AgendaPraticienServiceInterface,
+    RendezVousServiceInterface
+};
+
+use toubilib\core\application\usecases\{
+    PraticienService,
+    RendezVousService,
+    AgendaPraticienService,
+    AuthnService
+};
+
 use toubilib\api\actions\ConsulterAgendaAction;
 
-use toubilib\core\domain\entities\praticien\repositories\UserRepositoryInterface;
 use toubilib\infrastructure\repositories\UserRepository;
-use toubilib\core\application\usecases\AuthenticateUser;
 
-use toubilib\core\application\usecases\JwtService;
-use toubilib\core\application\usecases\AuthenticationProvider;
+use toubilib\api\provider\jwt\JwtService;
+use toubilib\api\provider\AuthnProvider;
 
 
 return [
@@ -51,20 +62,20 @@ return [
         // câblage deps
     PraticienRepositoryInterface::class => static fn($c)
         => new PDOPraticienRepository($c->get('pdo.prat')),
-    ServicePraticienInterface::class => static fn($c)
-        => new ServicePraticien($c->get(PraticienRepositoryInterface::class)),
+    PraticienServiceInterface::class => static fn($c)
+        => new PraticienService($c->get(PraticienRepositoryInterface::class)),
 
     ConsulterAgendaAction::class => static fn($c)
         => new ConsulterAgendaAction(
-            $c->get(ServiceRendezVousInterface::class)
+            $c->get(RendezVousServiceInterface::class)
         ),
     RendezVousRepositoryInterface::class => static fn($c)
         => new PDORendezVousRepository($c->get('pdo.rdv')),
-    AgendaPraticienInterface::class => static fn($c)
-        => new AgendaPraticien($c->get(RendezVousRepositoryInterface::class)),
+    AgendaPraticienServiceInterface::class => static fn($c)
+        => new AgendaPraticienService($c->get(RendezVousRepositoryInterface::class)),
 
-    ServiceRendezVousInterface::class => static fn($c)
-        => new ServiceRendezVous(
+    RendezVousServiceInterface::class => static fn($c)
+        => new RendezVousService(
             $c->get(PraticienRepositoryInterface::class),
             $c->get(RendezVousRepositoryInterface::class)
         ),
@@ -80,12 +91,12 @@ return [
         return new JwtService($secret, $algo, $access, $refresh);
     },
 
-    AuthenticateUser::class => static fn(ContainerInterface $c) =>
-        new AuthenticateUser($c->get(UserRepositoryInterface::class)),
+    AuthnService::class => static fn(ContainerInterface $c) =>
+        new AuthnService($c->get(UserRepositoryInterface::class)),
 
-    AuthenticationProvider::class => static fn(ContainerInterface $c) =>
-        new AuthenticationProvider(
-            $c->get(AuthenticateUser::class),
+    AuthnProvider::class => static fn(ContainerInterface $c) =>
+        new AuthnProvider(
+            $c->get(AuthnService::class),
             $c->get(JwtService::class)
         ),
 ];

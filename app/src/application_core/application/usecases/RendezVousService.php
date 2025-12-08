@@ -11,7 +11,7 @@ use toubilib\core\application\ports\api\spi\repositoryInterfaces\PraticienReposi
 use toubilib\core\application\ports\api\spi\repositoryInterfaces\RendezVousRepositoryInterface;
 use Exception;
 
-class ServiceRendezVous implements RendezVousServiceInterface
+class RendezVousService implements RendezVousServiceInterface
 {
     public function __construct(
         private PraticienRepositoryInterface $praticienRepository,
