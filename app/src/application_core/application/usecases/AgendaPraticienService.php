@@ -3,10 +3,11 @@ declare(strict_types=1);
 
 namespace toubilib\core\application\usecases;
 
-use toubilib\core\application\dto\RendezVousDTO;
-use toubilib\core\domain\entities\rdv\repositories\RendezVousRepositoryInterface;
+use toubilib\api\dto\RendezVousDTO;
+use toubilib\core\application\ports\api\AgendaPraticienServiceInterface;
+use toubilib\core\application\ports\api\spi\repositoryInterfaces\RendezVousRepositoryInterface;
 
-class AgendaPraticien implements AgendaPraticienInterface
+class AgendaPraticienService implements AgendaPraticienServiceInterface
 {
     public function __construct(private RendezVousRepositoryInterface $repo)
     {

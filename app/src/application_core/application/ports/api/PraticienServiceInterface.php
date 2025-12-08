@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace toubilib\core\application\usecases;
+namespace toubilib\core\application\ports\api;
 
-use toubilib\core\application\dto\PraticienDTO;
+use toubilib\api\dto\PraticienDTO;
 
-interface ServicePraticienInterface
+interface PraticienServiceInterface
 {
     /** @return PraticienDTO[] */
     public function listerPraticiens(): array;

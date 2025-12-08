@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace toubilib\api\actions;
 
-use toubilib\core\application\usecases\AuthenticationProvider;
-use toubilib\core\domain\entities\exceptions\AuthenticationException;
+use toubilib\api\provider\AuthnProvider;
+use toubilib\core\application\exceptions\AuthenticationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class SigninAction
 {
-    private AuthenticationProvider $authProvider;
+    private AuthnProvider $authProvider;
 
-    public function __construct(AuthenticationProvider $authProvider)
+    public function __construct(AuthnProvider $authProvider)
     {
         $this->authProvider = $authProvider;
     }

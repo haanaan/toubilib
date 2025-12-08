@@ -3,10 +3,11 @@ declare(strict_types=1);
 
 namespace toubilib\core\application\usecases;
 
-use toubilib\core\application\dto\PraticienDTO;
-use toubilib\core\domain\entities\praticien\repositories\PraticienRepositoryInterface;
+use toubilib\api\dto\PraticienDTO;
+use toubilib\core\application\ports\api\spi\repositoryInterfaces\PraticienRepositoryInterface;
+use toubilib\core\application\ports\api\PraticienServiceInterface;
 
-class ServicePraticien implements ServicePraticienInterface
+class ServicePraticien implements PraticienServiceInterface
 {
     public function __construct(private PraticienRepositoryInterface $repo)
     {

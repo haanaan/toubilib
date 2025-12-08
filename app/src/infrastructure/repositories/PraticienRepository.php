@@ -2,8 +2,8 @@
 namespace toubilib\infrastructure\repositories;
 
 use PDO;
-use toubilib\core\domain\entities\praticien\Praticien;
-use toubilib\core\domain\entities\praticien\repositories\PraticienRepositoryInterface;
+use toubilib\core\domain\entities\Praticien;
+use toubilib\core\application\ports\api\spi\repositoryInterfaces\PraticienRepositoryInterface;
 
 class PraticienRepository implements PraticienRepositoryInterface
 {

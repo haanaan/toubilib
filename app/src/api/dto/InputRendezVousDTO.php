@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace toubilib\core\application\dto;
+namespace toubilib\api\dto;
 
 class InputRendezVousDTO
 {

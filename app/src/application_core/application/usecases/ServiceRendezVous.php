@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace toubilib\core\application\usecases;
 
-use toubilib\core\application\dto\InputRendezVousDTO;
-use toubilib\core\domain\entities\rdv\RendezVous;
-use toubilib\core\domain\entities\rdv\repositories\RendezVousRepositoryInterface;
-use toubilib\core\domain\entities\praticien\repositories\PraticienRepositoryInterface;
+use toubilib\api\dto\InputRendezVousDTO;
+use toubilib\core\domain\entities\RendezVous;
+use toubilib\core\application\ports\api\RendezVousServiceInterface;
+use toubilib\core\application\ports\api\spi\repositoryInterfaces\PraticienRepositoryInterface;
+use toubilib\core\application\ports\api\spi\repositoryInterfaces\RendezVousRepositoryInterface;
 use Exception;
 
-class ServiceRendezVous implements ServiceRendezVousInterface
+class ServiceRendezVous implements RendezVousServiceInterface
 {
     public function __construct(
         private PraticienRepositoryInterface $praticienRepository,

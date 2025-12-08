@@ -1,6 +1,6 @@
 <?php
 
-namespace toubilib\core\application\dto;
+namespace toubilib\api\dto;
 
 class UserProfileDTO
 {

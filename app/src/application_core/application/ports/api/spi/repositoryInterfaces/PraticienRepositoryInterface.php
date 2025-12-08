@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace toubilib\core\domain\entities\praticien\repositories;
+namespace toubilib\core\application\ports\api\spi\repositoryInterfaces;
 
-use toubilib\core\domain\entities\praticien\Praticien;
+use toubilib\core\domain\entities\Praticien;
 
 interface PraticienRepositoryInterface
 {

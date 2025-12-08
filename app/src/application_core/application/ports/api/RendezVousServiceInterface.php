@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace toubilib\core\application\usecases;
+namespace toubilib\core\application\ports\api;
 
-use toubilib\core\application\dto\InputRendezVousDTO;
+use toubilib\api\dto\InputRendezVousDTO;
 
-interface ServiceRendezVousInterface
+interface RendezVousServiceInterface
 {
     public function creerRendezVous(InputRendezVousDTO $dto): void;
     public function annulerRendezVous(string $rdvId, ?string $raison = null): void;

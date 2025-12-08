@@ -2,11 +2,11 @@
 
 namespace toubilib\core\application\usecases;
 
-use toubilib\core\application\dto\UserProfileDTO;
-use toubilib\core\domain\entities\praticien\repositories\UserRepositoryInterface;
-use toubilib\core\domain\entities\exceptions\AuthenticationException;
+use toubilib\api\dto\UserProfileDTO;
+use toubilib\core\application\ports\api\spi\repositoryInterfaces\UserRepositoryInterface;
+use toubilib\core\application\exceptions\AuthenticationException;
 
-class AuthenticateUser
+class AuthnService
 {
     public function __construct(private UserRepositoryInterface $userRepository)
     {

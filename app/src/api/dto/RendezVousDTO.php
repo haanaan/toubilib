@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace toubilib\core\application\dto;
+namespace toubilib\api\dto;
 
-use toubilib\core\domain\entities\rdv\RendezVous;
+use toubilib\core\domain\entities\RendezVous;
 
 class RendezVousDTO
 {

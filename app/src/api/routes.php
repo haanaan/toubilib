@@ -11,7 +11,7 @@ use toubilib\api\actions\{
     ConsulterAgendaAction,
     SigninAction,
 };
-use toubilib\core\application\usecases\AuthenticationProvider;
+use toubilib\api\provider\AuthnProvider;
 use toubilib\core\domain\entities\exceptions\AuthenticationException;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -34,8 +34,8 @@ return function (App $app): void {
         $email = $params['email'] ?? '';
         $password = $params['password'] ?? '';
 
-        /** @var AuthenticationProvider $authProvider */
-        $authProvider = $app->getContainer()->get(AuthenticationProvider::class);
+        /** @var AuthnProvider $authProvider */
+        $authProvider = $app->getContainer()->get(AuthnProvider::class);
 
         try {
             $authTokensDTO = $authProvider->signin($email, $password);

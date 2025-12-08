@@ -5,11 +5,11 @@ namespace toubilib\api\actions;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use toubilib\core\application\usecases\ServicePraticienInterface;
+use toubilib\core\application\ports\api\PraticienServiceInterface;
 
 class GetPraticienAction
 {
-    public function __construct(private ServicePraticienInterface $service)
+    public function __construct(private PraticienServiceInterface $service)
     {
     }
 

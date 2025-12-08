@@ -1,8 +1,8 @@
 <?php
 namespace toubilib\infrastructure\repositories;
 
-use toubilib\core\domain\entities\praticien\User;
-use toubilib\core\domain\entities\praticien\repositories\UserRepositoryInterface;
+use toubilib\core\domain\entities\User;
+use toubilib\core\application\ports\api\spi\repositoryInterfaces\UserRepositoryInterface;
 use PDO;
 
 class UserRepository implements UserRepositoryInterface

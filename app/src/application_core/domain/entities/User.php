@@ -1,6 +1,6 @@
 <?php
 
-namespace toubilib\core\domain\entities\praticien;
+namespace toubilib\core\domain\entities;
 
 class User
 {

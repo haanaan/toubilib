@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace toubilib\core\domain\entities\praticien;
+namespace toubilib\core\domain\entities;
 
 class Specialite
 {

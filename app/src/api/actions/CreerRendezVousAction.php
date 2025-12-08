@@ -6,12 +6,12 @@ namespace toubilib\api\actions;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use toubilib\core\application\usecases\ServiceRendezVousInterface;
-use toubilib\core\application\dto\InputRendezVousDTO;
+use toubilib\core\application\ports\api\RendezVousServiceInterface;
+use toubilib\api\dto\InputRendezVousDTO;
 
 class CreerRendezVousAction
 {
-    public function __construct(private ServiceRendezVousInterface $service)
+    public function __construct(private RendezVousServiceInterface $service)
     {
     }
 

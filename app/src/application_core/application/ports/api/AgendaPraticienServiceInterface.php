@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace toubilib\core\application\usecases;
+namespace toubilib\core\application\ports\api;
 
-use toubilib\core\application\dto\RendezVousDTO;
+use toubilib\api\dto\RendezVousDTO;
 
-interface AgendaPraticienInterface
+interface AgendaPraticienServiceInterface
 {
     /** @return RendezVousDTO[] */
     public function getCreneauxOccupes(string $praticienId, \DateTimeImmutable $from, \DateTimeImmutable $to): array;

@@ -5,11 +5,11 @@ namespace toubilib\api\actions;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use toubilib\core\application\usecases\AgendaPraticienInterface;
+use toubilib\core\application\ports\api\AgendaPraticienServiceInterface;
 
 class GetRendezVousAction
 {
-    public function __construct(private AgendaPraticienInterface $agenda)
+    public function __construct(private AgendaPraticienServiceInterface $agenda)
     {
     }
 

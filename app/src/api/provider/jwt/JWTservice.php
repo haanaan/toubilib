@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace toubilib\core\application\usecases;
+namespace toubilib\api\provider\jwt;
 
-use toubilib\core\application\dto\UserProfileDTO;
+use toubilib\api\dto\UserProfileDTO;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 

@@ -7,15 +7,15 @@ namespace toubilib\api\actions;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Container\ContainerInterface;
-use toubilib\core\application\usecases\ServiceRendezVousInterface;
+use toubilib\core\application\ports\api\RendezVousServiceInterface;
 
 final class AnnulerRendezVousAction
 {
-    private ServiceRendezVousInterface $service;
+    private RendezVousServiceInterface $service;
 
     public function __construct(ContainerInterface $container)
     {
-        $this->service = $container->get(ServiceRendezVousInterface::class);
+        $this->service = $container->get(RendezVousServiceInterface::class);
     }
 
     public function __invoke(Request $request, Response $response, array $args = []): Response
@@ -74,12 +74,12 @@ return [
         return $pdo;
     },
 
-    \toubilib\core\domain\entities\rdv\repositories\RendezVousRepositoryInterface::class
+    \toubilib\core\application\ports\api\spi\repositoryInterfaces\RendezVousRepositoryInterface::class
     => autowire(\toubilib\infrastructure\repositories\PDORendezVousRepository::class),
 
-    \toubilib\core\domain\entities\praticien\repositories\PraticienRepositoryInterface::class
+    \toubilib\core\application\ports\api\spi\repositoryInterfaces\PraticienRepositoryInterface::class
     => autowire(\toubilib\infrastructure\repositories\PDOPraticienRepository::class),
 
-    ServiceRendezVousInterface::class => autowire(\toubilib\core\application\usecases\ServiceRendezVous::class),
+    RendezVousServiceInterface::class => autowire(\toubilib\core\application\usecases\ServiceRendezVous::class),
 
 ];

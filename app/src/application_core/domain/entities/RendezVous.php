@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace toubilib\core\domain\entities\rdv;
+namespace toubilib\core\domain\entities;
 
 use DomainException;
 

@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace toubilib\infrastructure\repositories;
 
-use toubilib\core\domain\entities\praticien\Praticien;
-use toubilib\core\domain\entities\praticien\repositories\PraticienRepositoryInterface;
+use toubilib\core\domain\entities\Praticien;
+use toubilib\core\application\ports\api\spi\repositoryInterfaces\PraticienRepositoryInterface;
 
 class PDOPraticienRepository implements PraticienRepositoryInterface
 {

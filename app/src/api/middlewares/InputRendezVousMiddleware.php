@@ -1,8 +1,8 @@
 <?php
 
-namespace toubilib\infrastructure\http;
+namespace toubilib\api\middlewares;
 
-use toubilib\core\application\dto\InputRendezVousDTO;
+use toubilib\api\dto\InputRendezVousDTO;
 class InputRendezVousMiddleware
 {
     public function handle(array $requestData, callable $next)
@@ -30,7 +30,6 @@ class InputRendezVousMiddleware
             patientEmail: $requestData['patientEmail'] ?? null,
         );
 
-        // permet de transmettre le DTO crée au service
         return $next($dto);
     }
 }

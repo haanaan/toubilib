@@ -1,6 +1,6 @@
 <?php
 
-namespace toubilib\core\domain\entities\exceptions;
+namespace toubilib\core\application\exceptions;
 
 use Exception;
 

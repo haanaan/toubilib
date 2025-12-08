@@ -5,14 +5,14 @@ namespace toubilib\api\actions;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use toubilib\core\application\usecases\ServicePraticienInterface;
-use toubilib\core\application\usecases\AgendaPraticienInterface;
+use toubilib\core\application\ports\api\PraticienServiceInterface;
+use toubilib\core\application\ports\api\AgendaPraticienServiceInterface;
 
 class ListerPraticiensAction
 {
     public function __construct(
-        private ServicePraticienInterface $service,
-        private AgendaPraticienInterface $agenda
+        private PraticienServiceInterface $service,
+        private AgendaPraticienServiceInterface $agenda
     ) {
     }
 

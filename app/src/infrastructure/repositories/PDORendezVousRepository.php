@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace toubilib\infrastructure\repositories;
 
-use toubilib\core\domain\entities\rdv\RendezVous;
-use toubilib\core\domain\entities\rdv\repositories\RendezVousRepositoryInterface;
+use toubilib\core\domain\entities\RendezVous;
+use toubilib\core\application\ports\api\spi\repositoryInterfaces\RendezVousRepositoryInterface;
 use toubilib\core\application\dto\InputRendezVousDTO;
 
 class PDORendezVousRepository implements RendezVousRepositoryInterface
