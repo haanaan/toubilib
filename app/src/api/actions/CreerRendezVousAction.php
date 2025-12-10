@@ -17,6 +17,8 @@ class CreerRendezVousAction
 
     public function __invoke(Request $request, Response $response, array $args = []): Response
     {
+        $profile = $request->getAttribute('userProfile');
+
         $dto = $request->getAttribute('inputRendezVousDTO');
 
         if (!($dto instanceof InputRendezVousDTO)) {

@@ -5,14 +5,14 @@ namespace toubilib\core\domain\entities;
 class User
 {
     public function __construct(
-        private int $id,
+        private string $id,
         private string $email,
         private string $passwordHash,
         private string $role
     ) {
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }

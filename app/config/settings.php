@@ -60,5 +60,12 @@ return [
                 PDO::ATTR_EMULATE_PREPARES => false,
             ],
         ],
+
+        'jwt' => [
+            'secret' => $_ENV['JWT_SECRET'] ?? 'change-me-super-secret-key-longue',
+            'algo' => 'HS256',
+            'access_ttl' => 3600,
+            'refresh_ttl' => 1209600
+        ]
     ],
 ];

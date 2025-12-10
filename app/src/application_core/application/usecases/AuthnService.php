@@ -17,7 +17,7 @@ class AuthnService
         $user = $this->userRepository->findByEmail($email);
 
         if (!$user || !$user->verifyPassword($password)) {
-            throw new AuthenticationException('Invalid credentials.');
+            throw new AuthenticationException('Identifiants invalides.');
         }
 
         return new UserProfileDTO(

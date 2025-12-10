@@ -24,9 +24,6 @@ class AuthnProvider
     {
         $profile = $this->authenticateUser->execute($email, $password);
 
-        if ($profile === null) {
-            throw new AuthenticationException("Identifiants invalides.");
-        }
 
         $accessToken = $this->jwtService->generateAccessToken($profile);
         $refreshToken = $this->jwtService->generateRefreshToken($profile);

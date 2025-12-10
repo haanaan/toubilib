@@ -20,6 +20,8 @@ final class AnnulerRendezVousAction
 
     public function __invoke(Request $request, Response $response, array $args = []): Response
     {
+        $profile = $request->getAttribute('userProfile');
+
         $id = $args['id'] ?? null;
         if (empty($id)) {
             return $this->json($response, ['error' => "Identifiant du rendez-vous manquant."], 400);

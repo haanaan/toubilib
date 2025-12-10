@@ -28,7 +28,7 @@ class PDORendezVousRepository implements RendezVousRepositoryInterface
     public function findById(string $id): ?RendezVous
     {
         $sql = "SELECT id, praticien_id, patient_id, patient_email,
-                       date_heure_debut, date_heure_fin, motif_visite
+                       date_heure_debut, date_heure_fin, motif_visite, status
                 FROM public.rdv
                 WHERE id = :id";
         $st = $this->pdo->prepare($sql);

@@ -14,6 +14,8 @@ class ConsulterAgendaAction
 
     public function __invoke(Request $request, Response $response, array $args = []): Response
     {
+        $profile = $request->getAttribute('userProfile');
+
         $praticienId = $args['praticienId'] ?? $args['id'] ?? null;
         if (!$praticienId) {
             return $this->json($response, ['error' => 'praticienId manquant'], 400);

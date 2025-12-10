@@ -8,13 +8,12 @@ use toubilib\api\actions\{
     GetCreneauxPraticienAction,
     GetRendezVousAction,
     AnnulerRendezVousAction,
+    CreerRendezVousAction,
     ConsulterAgendaAction,
     SigninAction,
 };
-use toubilib\api\provider\AuthnProvider;
-use toubilib\core\domain\entities\exceptions\AuthenticationException;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+use toubilib\api\middlewares\AuthnMiddleware;
+use toubilib\api\middlewares\RendezVousAuthzMiddleware;
 
 return function (App $app): void {
     $app->get(
@@ -25,32 +24,15 @@ return function (App $app): void {
 
     $app->get('/praticiens', ListerPraticiensAction::class);
     $app->get('/praticiens/{id}', GetPraticienAction::class);
-    $app->get('/praticiens/{id}/creneaux', GetCreneauxPraticienAction::class);
-    $app->get('/rendezvous/{id}', GetRendezVousAction::class);
-    $app->delete('/rendezvous/{id}', AnnulerRendezVousAction::class);
-    $app->get('/praticiens/{id}/agenda', ConsulterAgendaAction::class);
-    $app->post('/signin', function ($request, $response) use ($app) {
-        $params = (array) $request->getParsedBody();
-        $email = $params['email'] ?? '';
-        $password = $params['password'] ?? '';
-
-        /** @var AuthnProvider $authProvider */
-        $authProvider = $app->getContainer()->get(AuthnProvider::class);
-
-        try {
-            $authTokensDTO = $authProvider->signin($email, $password);
-            $payload = json_encode($authTokensDTO);
-
-            $response->getBody()->write($payload);
-            return $response->withHeader('Content-Type', 'application/json');
-        } catch (\Exception $ex) {
-            $error = ['error' => $ex->getMessage()];
-            $response->getBody()->write(json_encode($error));
-            return $response->withStatus(401)->withHeader('Content-Type', 'application/json');
-        }
-    });
-
-
-
+    $app->get('/praticiens/{id}/creneaux', GetCreneauxPraticienAction::class)->add(AuthnMiddleware::class);
+    $app->get('/rendezvous/{id}', GetRendezVousAction::class)
+        ->add(RendezVousAuthzMiddleware::class)
+        ->add(AuthnMiddleware::class);
+    $app->delete('/rendezvous/{id}', AnnulerRendezVousAction::class)->add(AuthnMiddleware::class);
+    $app->get('/praticiens/{id}/agenda', ConsulterAgendaAction::class)
+        ->add(RendezVousAuthzMiddleware::class)
+        ->add(AuthnMiddleware::class);
+    $app->post('/rendezvous', CreerRendezVousAction::class)->add(AuthnMiddleware::class);
+    $app->post('/auth/signin', SigninAction::class);
 
 };

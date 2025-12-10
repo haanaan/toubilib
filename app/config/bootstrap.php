@@ -19,6 +19,8 @@ $container = $builder->build();
 $app = AppFactory::createFromContainer($container);
 $app->addRoutingMiddleware();
 $app->addErrorMiddleware(true, false, false);
+$app->addBodyParsingMiddleware();
+
 
 (require dirname(__DIR__) . '/src/api/routes.php')($app);
 

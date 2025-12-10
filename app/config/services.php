@@ -17,22 +17,29 @@ use toubilib\infrastructure\repositories\{
 use toubilib\core\application\ports\api\{
     PraticienServiceInterface,
     AgendaPraticienServiceInterface,
-    RendezVousServiceInterface
+    RendezVousServiceInterface,
+    RendezVousAuthzServiceInterface
 };
 
 use toubilib\core\application\usecases\{
     PraticienService,
     RendezVousService,
     AgendaPraticienService,
-    AuthnService
+    AuthnService,
+    RendezVousAuthzService
 };
 
 use toubilib\api\actions\ConsulterAgendaAction;
-
+use toubilib\api\actions\SigninAction;
 use toubilib\infrastructure\repositories\UserRepository;
 
 use toubilib\api\provider\jwt\JwtService;
 use toubilib\api\provider\AuthnProvider;
+
+use toubilib\api\middlewares\RendezVousAuthzMiddleware;
+use toubilib\api\middlewares\AuthnMiddleware;
+
+
 
 
 return [
@@ -99,4 +106,25 @@ return [
             $c->get(AuthnService::class),
             $c->get(JwtService::class)
         ),
+
+    SigninAction::class => static fn($c) => new SigninAction($c->get(AuthnProvider::class)),
+
+    AuthnMiddleware::class => static fn(ContainerInterface $c) =>
+        new AuthnMiddleware(
+            $c->get(JwtService::class)
+        ),
+
+    RendezVousAuthzServiceInterface::class => static fn($c)
+        => new RendezVousAuthzService($c->get(RendezVousRepositoryInterface::class)),
+    RendezVousAuthzServiceInterface::class => static fn($c)
+        => new RendezVousAuthzService(
+            $c->get(RendezVousRepositoryInterface::class)
+        ),
+
+    RendezVousAuthzMiddleware::class => static fn($c)
+        => new RendezVousAuthzMiddleware(
+            $c->get(RendezVousAuthzServiceInterface::class)
+        ),
+
+
 ];

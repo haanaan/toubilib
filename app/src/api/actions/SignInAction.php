@@ -33,7 +33,9 @@ class SigninAction
         try {
             $tokens = $this->authProvider->signin($params['email'], $params['password']);
             $response->getBody()->write(json_encode($tokens));
-            return $response->withHeader('Content-Type', 'application/json');
+            return $response
+                ->withStatus(201)
+                ->withHeader('Content-Type', 'application/json');
         } catch (AuthenticationException $ex) {
             $error = ['error' => $ex->getMessage()];
             $response->getBody()->write(json_encode($error));

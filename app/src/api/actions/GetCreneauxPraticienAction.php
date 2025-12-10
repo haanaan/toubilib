@@ -6,7 +6,6 @@ namespace toubilib\api\actions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use toubilib\core\application\ports\api\AgendaPraticienServiceInterface;
-
 class GetCreneauxPraticienAction
 {
     public function __construct(private AgendaPraticienServiceInterface $agenda)
@@ -15,6 +14,8 @@ class GetCreneauxPraticienAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
+        $profile = $request->getAttribute('userProfile');
+
         $pid = (string) $args['id'];
         $q = $request->getQueryParams();
         $from = $this->parse($q['from'] ?? null);
