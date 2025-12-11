@@ -104,4 +104,21 @@ class RendezVousService implements RendezVousServiceInterface
         ], $rdvs);
     }
 
+    public function historiquePatient(string $patientId): array
+    {
+        $rdvs = $this->rdvRepository->findForPatient($patientId);
+
+        return array_map(fn(RendezVous $rdv) => [
+            'id' => $rdv->getId(),
+            'praticien_id' => $rdv->getPraticienId(),
+            'debut' => $rdv->getDebut()->format('c'),
+            'fin' => $rdv->getFin()->format('c'),
+            'motif' => $rdv->getMotif(),
+            'etat' => $rdv->getEtat(),
+            'date_annulation' => $rdv->getDateAnnulation()?->format('c'),
+            'raison_annulation' => $rdv->getRaisonAnnulation(),
+        ], $rdvs);
+    }
+
+
 }

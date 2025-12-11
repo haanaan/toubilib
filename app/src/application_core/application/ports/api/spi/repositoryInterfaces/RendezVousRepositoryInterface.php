@@ -16,4 +16,8 @@ interface RendezVousRepositoryInterface
     /** @return RendezVous[] */
     public function findForPraticienBetween(string $praticienId, \DateTimeImmutable $from, \DateTimeImmutable $to): array;
 
+    /** @return RendezVous[] */
+    public function findForPatient(string $patientId): array;
+
+
 }

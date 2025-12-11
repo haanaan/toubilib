@@ -36,4 +36,22 @@ class UserRepository implements UserRepositoryInterface
             role: $role
         );
     }
+
+    public function createPatient(string $email, string $passwordHash): string
+    {
+        $stmt = $this->pdoAuth->prepare(
+            "INSERT INTO users (id, email, password, role)
+         VALUES (gen_random_uuid(), :email, :password, :role)
+         RETURNING id"
+        );
+        $stmt->execute([
+            ':email' => $email,
+            ':password' => $passwordHash,
+            ':role' => 1,
+        ]);
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return (string) $row['id'];
+    }
+
 }

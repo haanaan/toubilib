@@ -15,4 +15,6 @@ interface RendezVousServiceInterface
      * @return array
      */
     public function consulterAgenda(string $praticienId, ?\DateTimeImmutable $from = null, ?\DateTimeImmutable $to = null): array;
+    public function historiquePatient(string $patientId): array;
+
 }

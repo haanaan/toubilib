@@ -150,4 +150,30 @@ class PDORendezVousRepository implements RendezVousRepositoryInterface
         ), $rows);
     }
 
+    public function findForPatient(string $patientId): array
+    {
+        $sql = "SELECT id, praticien_id, patient_id, patient_email,
+                   date_heure_debut, date_heure_fin, motif_visite, status
+            FROM public.rdv
+            WHERE patient_id = :pid
+            ORDER BY date_heure_debut DESC";
+        $st = $this->pdo->prepare($sql);
+        $st->execute([':pid' => $patientId]);
+        $rows = $st->fetchAll(\PDO::FETCH_ASSOC);
+
+        return array_map(fn($r) => new RendezVous(
+            (string) $r['id'],
+            (string) $r['praticien_id'],
+            new \DateTimeImmutable($r['date_heure_debut']),
+            new \DateTimeImmutable($r['date_heure_fin']),
+            $r['motif_visite'] ?? null,
+            $r['patient_id'] ?? null,
+            $r['patient_email'] ?? null,
+            $this->statusToEtat[(int) ($r['status'] ?? 0)] ?? 'prevu',
+            isset($r['date_annulation']) ? new \DateTimeImmutable($r['date_annulation']) : null,
+            $r['raison_annulation'] ?? null
+        ), $rows);
+    }
+
+
 }

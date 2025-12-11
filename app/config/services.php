@@ -26,16 +26,21 @@ use toubilib\core\application\usecases\{
     RendezVousService,
     AgendaPraticienService,
     AuthnService,
-    RendezVousAuthzService
+    RendezVousAuthzService,
+    RegisterPatientService
 };
 
-use toubilib\api\actions\ConsulterAgendaAction;
-use toubilib\api\actions\SigninAction;
-use toubilib\infrastructure\repositories\UserRepository;
+use toubilib\api\actions\{
+    ConsulterAgendaAction,
+    SigninAction,
+    HistoriquePatientAction,
+    RegisterPatientAction
 
+};
+
+use toubilib\infrastructure\repositories\UserRepository;
 use toubilib\api\provider\jwt\JwtService;
 use toubilib\api\provider\AuthnProvider;
-
 use toubilib\api\middlewares\RendezVousAuthzMiddleware;
 use toubilib\api\middlewares\AuthnMiddleware;
 
@@ -125,6 +130,16 @@ return [
         => new RendezVousAuthzMiddleware(
             $c->get(RendezVousAuthzServiceInterface::class)
         ),
+
+    HistoriquePatientAction::class => static fn($c)
+        => new HistoriquePatientAction(
+            $c->get(RendezVousServiceInterface::class)
+        ),
+    RegisterPatientService::class => static fn(ContainerInterface $c) =>
+        new RegisterPatientService($c->get(UserRepositoryInterface::class)),
+
+    RegisterPatientAction::class => static fn(ContainerInterface $c) =>
+        new RegisterPatientAction($c->get(RegisterPatientService::class)),
 
 
 ];
