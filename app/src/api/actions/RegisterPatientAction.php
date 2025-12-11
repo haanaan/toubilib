@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use toubilib\core\application\usecases\RegisterPatientService;
 use toubilib\core\application\exceptions\AuthenticationException;
 
-final class RegisterPatientAction
+class RegisterPatientAction
 {
     public function __construct(private RegisterPatientService $service)
     {

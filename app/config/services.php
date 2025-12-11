@@ -11,7 +11,9 @@ use toubilib\core\application\ports\api\spi\repositoryInterfaces\{
 
 use toubilib\infrastructure\repositories\{
     PDOPraticienRepository,
-    PDORendezVousRepository
+    PDORendezVousRepository,
+    IndisponibiliteRepository,
+    InMemoryIndisponibiliteRepository
 };
 
 use toubilib\core\application\ports\api\{

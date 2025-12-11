@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use toubilib\api\dto\UserProfileDTO;
 use toubilib\core\application\ports\api\RendezVousServiceInterface;
 
-final class HistoriquePatientAction
+class HistoriquePatientAction
 {
     public function __construct(private RendezVousServiceInterface $service)
     {

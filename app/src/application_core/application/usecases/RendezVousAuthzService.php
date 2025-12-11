@@ -17,7 +17,6 @@ class RendezVousAuthzService implements RendezVousAuthzServiceInterface
     {
         $rdv = $this->rdvRepository->findById($rdvId);
         if ($rdv === null) {
-            // À toi de décider : soit false, soit tu laisses le service métier lever une 404
             return false;
         }
 
@@ -25,12 +24,10 @@ class RendezVousAuthzService implements RendezVousAuthzServiceInterface
         $userId = (string) $profile->id;
 
         if ($role === 'praticien') {
-            // praticien authentifié doit être le praticien du RDV
             return $rdv->getPraticienId() === $userId;
         }
 
         if ($role === 'patient') {
-            // patient authentifié doit être le patient du RDV
             return $rdv->getPatientId() === $userId;
         }
 
@@ -39,7 +36,6 @@ class RendezVousAuthzService implements RendezVousAuthzServiceInterface
 
     public function canAccessAgenda(UserProfileDTO $profile, string $praticienId): bool
     {
-        // Règle : praticien authentifié propriétaire de l’agenda demandé
         if ($profile->role !== 'praticien') {
             return false;
         }

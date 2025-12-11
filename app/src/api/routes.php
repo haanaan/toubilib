@@ -12,7 +12,8 @@ use toubilib\api\actions\{
     ConsulterAgendaAction,
     SigninAction,
     HistoriquePatientAction,
-    RegisterPatientAction
+    RegisterPatientAction,
+    CreerIndisponibiliteAction
 };
 use toubilib\api\middlewares\AuthnMiddleware;
 use toubilib\api\middlewares\RendezVousAuthzMiddleware;
@@ -39,5 +40,7 @@ return function (App $app): void {
     $app->get('/patients/{id}/historique', HistoriquePatientAction::class)
         ->add(AuthnMiddleware::class);
     $app->post('/patients/register', RegisterPatientAction::class);
+    $app->post('/praticiens/{id}/indisponibilites', CreerIndisponibiliteAction::class)
+        ->add(AuthnMiddleware::class);
 
 };
