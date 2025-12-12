@@ -175,14 +175,27 @@ class PDORendezVousRepository implements RendezVousRepositoryInterface
         ), $rows);
     }
 
-public function updateEtat(string $id, string $etat)
-{
-    $sql = "UPDATE rendezvous SET etat = :etat WHERE id = :id";
-    $st = $this->pdo->prepare($sql);
-    return $st->execute([
-        ':etat' => $etat,
-        ':id'   => $id
-                                ]);
+    public function updateEtat(string $id, string $etat): void
+    {
+        // Mapping métier -> status (en cohérence avec le reste)
+        // 0 = prévu, 1 = confirmé/honoré, 2 = annulé, 3 = non honoré (par ex.)
+        $mapEtatToStatus = [
+            'honore' => 1,
+            'non_honore' => 3,
+        ];
+
+        if (!isset($mapEtatToStatus[$etat])) {
+            throw new \InvalidArgumentException("Etat inconnu pour la mise à jour : $etat");
+        }
+
+        $status = $mapEtatToStatus[$etat];
+
+        $sql = "UPDATE public.rdv SET status = :status WHERE id = :id";
+        $st = $this->pdo->prepare($sql);
+        $st->execute([
+            ':status' => $status,
+            ':id' => $id,
+        ]);
     }
 
 }

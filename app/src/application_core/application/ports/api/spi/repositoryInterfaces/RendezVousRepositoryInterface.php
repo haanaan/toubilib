@@ -19,5 +19,5 @@ interface RendezVousRepositoryInterface
     /** @return RendezVous[] */
     public function findForPatient(string $patientId): array;
 
-
+    public function updateEtat(string $rdvId, string $etat): void;
 }
