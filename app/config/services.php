@@ -11,7 +11,9 @@ use toubilib\core\application\ports\api\spi\repositoryInterfaces\{
 
 use toubilib\infrastructure\repositories\{
     PDOPraticienRepository,
-    PDORendezVousRepository
+    PDORendezVousRepository,
+    IndisponibiliteRepository,
+    InMemoryIndisponibiliteRepository
 };
 
 use toubilib\core\application\ports\api\{
@@ -42,6 +44,7 @@ use toubilib\infrastructure\repositories\UserRepository;
 use toubilib\api\provider\jwt\JwtService;
 use toubilib\api\provider\AuthnProvider;
 use toubilib\api\middlewares\RendezVousAuthzMiddleware;
+use toubilib\api\actions\UpdateEtatRendezVousAction;
 use toubilib\api\middlewares\AuthnMiddleware;
 use toubilib\api\actions\SearchPraticiensAction;
 
@@ -131,7 +134,9 @@ return [
         => new RendezVousAuthzMiddleware(
             $c->get(RendezVousAuthzServiceInterface::class)
         ),
-
+    UpdateEtatRendezVousAction::class => static fn($c)
+    => new UpdateEtatRendezVousAction($c->get(RendezVousServiceInterface::class)),
+    
     HistoriquePatientAction::class => static fn($c)
         => new HistoriquePatientAction(
             $c->get(RendezVousServiceInterface::class)

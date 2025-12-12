@@ -120,5 +120,12 @@ class RendezVousService implements RendezVousServiceInterface
         ], $rdvs);
     }
 
+public function changerEtatRendezVous(string $id, string $etat)
+{
+    if (!in_array($etat, ['honore', 'non_honore'])) {
+        throw new Exception("État invalide");
+    }
 
+    $this->rdvRepository->updateEtat($id, $etat);
+    }
 }

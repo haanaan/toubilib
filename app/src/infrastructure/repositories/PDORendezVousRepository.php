@@ -175,5 +175,15 @@ class PDORendezVousRepository implements RendezVousRepositoryInterface
         ), $rows);
     }
 
+public function updateEtat(string $id, string $etat)
+{
+    $sql = "UPDATE rendezvous SET etat = :etat WHERE id = :id";
+    $st = $this->pdo->prepare($sql);
+    return $st->execute([
+        ':etat' => $etat,
+        ':id'   => $id
+    ]);
+}
+
 
 }

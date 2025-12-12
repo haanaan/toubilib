@@ -32,8 +32,8 @@ class RendezVousAuthzMiddleware implements MiddlewareInterface
             return $this->jsonError($handler, $request, 400, 'Route not found');
         }
 
-        $pattern = $route->getPattern();          // ex: '/rendezvous/{id}'
-        $method = $request->getMethod();         // 'GET' ou 'DELETE'
+        $pattern = $route->getPattern();
+        $method = $request->getMethod();
         $args = $route->getArguments();
 
         $authorized = false;

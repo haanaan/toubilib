@@ -12,8 +12,8 @@ class JwtService
     public function __construct(
         private string $secret,
         private string $algo = 'HS256',
-        private int $accessTtl = 3600,       // 1h
-        private int $refreshTtl = 1209600    // 14j
+        private int $accessTtl = 3600,
+        private int $refreshTtl = 1209600
     ) {
     }
 

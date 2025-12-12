@@ -8,12 +8,14 @@ use toubilib\api\actions\{
     GetCreneauxPraticienAction,
     GetRendezVousAction,
     AnnulerRendezVousAction,
+    UpdateEtatRendezVousAction,
     CreerRendezVousAction,
     ConsulterAgendaAction,
     SigninAction,
     HistoriquePatientAction,
     RegisterPatientAction,
-    SearchPraticiensAction
+    SearchPraticiensAction,
+    CreerIndisponibiliteAction
 };
 use toubilib\api\middlewares\AuthnMiddleware;
 use toubilib\api\middlewares\RendezVousAuthzMiddleware;
@@ -37,9 +39,12 @@ return function (App $app): void {
         ->add(RendezVousAuthzMiddleware::class)
         ->add(AuthnMiddleware::class);
     $app->post('/rendezvous', CreerRendezVousAction::class)->add(AuthnMiddleware::class);
+    $app->patch('/rdv/{id}/etat', UpdateEtatRendezVousAction::class);
     $app->post('/auth/signin', SigninAction::class);
     $app->get('/patients/{id}/historique', HistoriquePatientAction::class)
         ->add(AuthnMiddleware::class);
     $app->post('/patients/register', RegisterPatientAction::class);
+    $app->post('/praticiens/{id}/indisponibilites', CreerIndisponibiliteAction::class)
+        ->add(AuthnMiddleware::class);
 
 };
