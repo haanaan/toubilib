@@ -18,7 +18,7 @@ class UpdateEtatRendezVousAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $id = (string)$args['id'];  // IMPORTANT
+        $id = (string)$args['id'];
         $body = $request->getParsedBody();
         $etat = $body['etat'] ?? null;
 

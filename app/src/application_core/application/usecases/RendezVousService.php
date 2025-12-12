@@ -120,12 +120,19 @@ class RendezVousService implements RendezVousServiceInterface
         ], $rdvs);
     }
 
-public function changerEtatRendezVous(string $id, string $etat)
-{
-    if (!in_array($etat, ['honore', 'non_honore'])) {
-        throw new Exception("État invalide");
-    }
+public function changerEtatRendezVous(string $rdvId, string $nouveauStatus): void
+    {
+        $validStatuses = ['honore', 'non_honore'];
 
-    $this->rdvRepository->updateEtat($id, $etat);
+        if (!in_array($nouveauStatus, $validStatuses)) {
+            throw new Exception("Statut invalide : $nouveauStatus");
+        }
+
+        $rdv = $this->rdvRepository->findById($rdvId);
+        if (!$rdv) {
+            throw new Exception("Rendez-vous introuvable : $rdvId");
+        }
+
+        $this->rdvRepository->updateEtat($rdvId, $nouveauStatus);
     }
 }

@@ -182,8 +182,7 @@ public function updateEtat(string $id, string $etat)
     return $st->execute([
         ':etat' => $etat,
         ':id'   => $id
-    ]);
-}
-
+                                ]);
+    }
 
 }

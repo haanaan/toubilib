@@ -39,7 +39,7 @@ return function (App $app): void {
         ->add(RendezVousAuthzMiddleware::class)
         ->add(AuthnMiddleware::class);
     $app->post('/rendezvous', CreerRendezVousAction::class)->add(AuthnMiddleware::class);
-    $app->patch('/rdv/{id}/etat', UpdateEtatRendezVousAction::class);
+    $app->post('/rdv/{id}/etat', UpdateEtatRendezVousAction::class)->add(AuthnMiddleware::class);
     $app->post('/auth/signin', SigninAction::class);
     $app->get('/patients/{id}/historique', HistoriquePatientAction::class)
         ->add(AuthnMiddleware::class);

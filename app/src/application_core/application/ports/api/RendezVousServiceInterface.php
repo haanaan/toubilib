@@ -17,4 +17,6 @@ interface RendezVousServiceInterface
     public function consulterAgenda(string $praticienId, ?\DateTimeImmutable $from = null, ?\DateTimeImmutable $to = null): array;
     public function historiquePatient(string $patientId): array;
 
+    public  function changerEtatRendezVous(string $rdvId, string $nouveauStatus): void;
+
 }
