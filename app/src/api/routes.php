@@ -12,7 +12,8 @@ use toubilib\api\actions\{
     ConsulterAgendaAction,
     SigninAction,
     HistoriquePatientAction,
-    RegisterPatientAction
+    RegisterPatientAction,
+    SearchPraticiensAction
 };
 use toubilib\api\middlewares\AuthnMiddleware;
 use toubilib\api\middlewares\RendezVousAuthzMiddleware;
@@ -25,6 +26,7 @@ return function (App $app): void {
     );
 
     $app->get('/praticiens', ListerPraticiensAction::class);
+    $app->get('/praticiens/search', SearchPraticiensAction::class);
     $app->get('/praticiens/{id}', GetPraticienAction::class);
     $app->get('/praticiens/{id}/creneaux', GetCreneauxPraticienAction::class)->add(AuthnMiddleware::class);
     $app->get('/rendezvous/{id}', GetRendezVousAction::class)

@@ -21,4 +21,23 @@ class PraticienService implements PraticienServiceInterface
         $p = $this->repo->findById($id);
         return $p ? PraticienDTO::fromEntity($p) : null;
     }
+
+    public function search(?string $ville, ?string $specialite): array
+{
+    $all = $this->listerPraticiens();
+
+    return array_filter($all, function ($p) use ($ville, $specialite) {
+        $ok = true;
+
+        if ($ville) {
+            $ok = $ok && (strtolower($p->ville) === strtolower($ville));
+        }
+
+        if ($specialite) {
+            $ok = $ok && (strtolower($p->specialite) === strtolower($specialite));
+        }
+
+        return $ok;
+        });
+    }
 }

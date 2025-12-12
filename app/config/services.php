@@ -43,6 +43,7 @@ use toubilib\api\provider\jwt\JwtService;
 use toubilib\api\provider\AuthnProvider;
 use toubilib\api\middlewares\RendezVousAuthzMiddleware;
 use toubilib\api\middlewares\AuthnMiddleware;
+use toubilib\api\actions\SearchPraticiensAction;
 
 
 
@@ -140,6 +141,10 @@ return [
 
     RegisterPatientAction::class => static fn(ContainerInterface $c) =>
         new RegisterPatientAction($c->get(RegisterPatientService::class)),
-
+        
+    SearchPraticiensAction::class => static fn($c) =>
+    new SearchPraticiensAction(
+        $c->get(PraticienServiceInterface::class)
+    ),
 
 ];
