@@ -177,8 +177,6 @@ class PDORendezVousRepository implements RendezVousRepositoryInterface
 
     public function updateEtat(string $id, string $etat): void
     {
-        // Mapping métier -> status (en cohérence avec le reste)
-        // 0 = prévu, 1 = confirmé/honoré, 2 = annulé, 3 = non honoré (par ex.)
         $mapEtatToStatus = [
             'honore' => 1,
             'non_honore' => 3,
