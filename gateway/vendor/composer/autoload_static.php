@@ -20,6 +20,10 @@ class ComposerStaticInitf41f602e633f6cf161e86b024b369814
     );
 
     public static $prefixLengthsPsr4 = array (
+        'g' =>
+        array (
+            'gateway\\' => 8,
+        ),
         'S' =>
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
@@ -68,7 +72,6 @@ class ComposerStaticInitf41f602e633f6cf161e86b024b369814
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
             'GrahamCampbell\\ResultType\\' => 26,
-            'Gateway\\' => 8,
         ),
         'F' =>
         array (
@@ -90,6 +93,10 @@ class ComposerStaticInitf41f602e633f6cf161e86b024b369814
     );
 
     public static $prefixDirsPsr4 = array (
+        'gateway\\' =>
+        array (
+            0 => __DIR__ . '/../..' . '/src',
+        ),
         'Symfony\\Polyfill\\Php80\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
@@ -191,10 +198,6 @@ class ComposerStaticInitf41f602e633f6cf161e86b024b369814
         'GrahamCampbell\\ResultType\\' =>
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
-        ),
-        'Gateway\\' =>
-        array (
-            0 => __DIR__ . '/../..' . '/src',
         ),
         'Firebase\\JWT\\' =>
         array (

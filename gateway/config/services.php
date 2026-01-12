@@ -2,6 +2,7 @@
 
 use Psr\Container\ContainerInterface;
 use GuzzleHttp\Client;
+use gateway\api\actions\ListerPraticiensAction;
 
 return [
 
@@ -11,6 +12,10 @@ return [
             'base_uri' => $cfg['base_uri'],
             'timeout' => $cfg['timeout'],
         ]);
+    },
+
+    ListerPraticiensAction::class => static function (ContainerInterface $c): ListerPraticiensAction {
+        return new ListerPraticiensAction($c->get(Client::class));
     },
 
 ];
