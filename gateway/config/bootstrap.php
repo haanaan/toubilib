@@ -12,7 +12,6 @@ $builder = new ContainerBuilder();
 $builder->useAutowiring(false);
 $builder->addDefinitions(__DIR__ . '/settings.php');
 $builder->addDefinitions(__DIR__ . '/services.php');
-$builder->addDefinitions(__DIR__ . '/api.php');
 
 $container = $builder->build();
 
