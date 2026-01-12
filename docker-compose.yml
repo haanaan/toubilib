@@ -21,6 +21,22 @@ services:
     #  - toubiauth.db
     command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public"
 
+
+  gateway:
+    build: 
+      context: build 
+      dockerfile: 8.4-cli.Dockerfile
+    container_name: toubilib-1-gateway-1
+    volumes:
+      - ./gateway:/var/www/html
+    ports:
+      - '8081:80'
+    depends_on:
+      - api.toubilib
+    networks:
+      - toubilib.net
+    command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/www/html/public"
+
     # service toubiprat.db : base de données postgresql pour les praticiens
 
   toubiprati.db:
@@ -76,3 +92,4 @@ services:
       volumes:
         - ./sql:/var/sql
 
+      
