@@ -15,6 +15,8 @@ return array(
     'Slim\\Psr7\\' => array($vendorDir . '/slim/psr7/src'),
     'Slim\\' => array($vendorDir . '/slim/slim/Slim'),
     'Respect\\Validation\\' => array($vendorDir . '/respect/validation/library'),
+    'Respect\\Stringifier\\Test\\Unit\\' => array($vendorDir . '/respect/stringifier/tests/unit'),
+    'Respect\\Stringifier\\Test\\' => array($vendorDir . '/respect/stringifier/tests/src'),
     'Respect\\Stringifier\\' => array($vendorDir . '/respect/stringifier/src'),
     'Ramsey\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),
     'Ramsey\\Collection\\' => array($vendorDir . '/ramsey/collection/src'),

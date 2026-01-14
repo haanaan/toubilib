@@ -37,6 +37,8 @@ class ComposerStaticInitf41f602e633f6cf161e86b024b369814
         'R' =>
         array (
             'Respect\\Validation\\' => 19,
+            'Respect\\Stringifier\\Test\\Unit\\' => 30,
+            'Respect\\Stringifier\\Test\\' => 25,
             'Respect\\Stringifier\\' => 20,
             'Ramsey\\Uuid\\' => 12,
             'Ramsey\\Collection\\' => 18,
@@ -128,6 +130,14 @@ class ComposerStaticInitf41f602e633f6cf161e86b024b369814
         'Respect\\Validation\\' =>
         array (
             0 => __DIR__ . '/..' . '/respect/validation/library',
+        ),
+        'Respect\\Stringifier\\Test\\Unit\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/respect/stringifier/tests/unit',
+        ),
+        'Respect\\Stringifier\\Test\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/respect/stringifier/tests/src',
         ),
         'Respect\\Stringifier\\' =>
         array (
