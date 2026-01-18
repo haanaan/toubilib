@@ -35,9 +35,9 @@ return function (App $app): void {
         ->add(RendezVousAuthzMiddleware::class)
         ->add(AuthnMiddleware::class);
     $app->delete('/rendezvous/{id}', AnnulerRendezVousAction::class)->add(AuthnMiddleware::class);
-    $app->get('/praticiens/{id}/agenda', ConsulterAgendaAction::class)
-        ->add(RendezVousAuthzMiddleware::class)
-        ->add(AuthnMiddleware::class);
+    $app->get('/praticiens/{id}/agenda', ConsulterAgendaAction::class);
+    //->add(RendezVousAuthzMiddleware::class)
+    //->add(AuthnMiddleware::class);
     $app->post('/rendezvous', CreerRendezVousAction::class)->add(AuthnMiddleware::class);
     $app->patch('/rdv/{id}/etat', UpdateEtatRendezVousAction::class)->add(AuthnMiddleware::class);
     $app->post('/auth/signin', SigninAction::class);
