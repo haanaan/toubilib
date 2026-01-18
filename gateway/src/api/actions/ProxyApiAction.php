@@ -9,11 +9,13 @@ class ProxyApiAction
 {
     private Client $client;
     private string $apiBaseUrl;
+    private string $praticiensBaseUrl;
 
-    public function __construct(Client $client, string $apiBaseUrl)
+    public function __construct(Client $client, string $apiBaseUrl, string $praticiensBaseUrl)
     {
         $this->client = $client;
         $this->apiBaseUrl = rtrim($apiBaseUrl, '/');
+        $this->praticiensBaseUrl = rtrim($praticiensBaseUrl, '/');
     }
 
     public function __invoke(Request $request, Response $response, array $args): Response
@@ -22,7 +24,14 @@ class ProxyApiAction
         $uri = $request->getUri();
         $path = $uri->getPath();
         $query = $uri->getQuery();
-        $targetUrl = $this->apiBaseUrl . $path;
+
+        if (preg_match('#^/praticiens($|/)#', $path)) {
+            $baseUrl = $this->praticiensBaseUrl;
+        } else {
+            $baseUrl = $this->apiBaseUrl;
+        }
+
+        $targetUrl = $baseUrl . $path;
         if (!empty($query)) {
             $targetUrl .= '?' . $query;
         }

@@ -37,6 +37,22 @@ services:
       # - toubirdv.db
     command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public"
 
+  app-praticiens:
+    build:
+      context: ./app-praticiens
+      dockerfile: Dockerfile
+    volumes:
+      - ./app-praticiens:/var/www/html
+    working_dir: /var/www/html
+    ports:
+      - "8082:8080"
+    networks:
+      - toubilib.net
+    depends_on:
+      - toubiprati.db
+    environment:
+      - COMPOSER_ALLOW_SUPERUSER=1
+
     # service toubiprat.db : base de données postgresql pour les praticiens
 
   toubiprati.db:
