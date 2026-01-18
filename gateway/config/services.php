@@ -2,9 +2,7 @@
 
 use Psr\Container\ContainerInterface;
 use GuzzleHttp\Client;
-use gateway\api\actions\ListerPraticiensAction;
-use gateway\api\actions\GetRdvPraticienAction;
-use gateway\api\actions\GetPraticienByIdAction;
+use gateway\api\actions\ProxyApiAction;
 
 return [
 
@@ -16,15 +14,7 @@ return [
         ]);
     },
 
-    ListerPraticiensAction::class => static function (ContainerInterface $c): ListerPraticiensAction {
-        return new ListerPraticiensAction($c->get(Client::class));
-    },
-
-    GetPraticienByIdAction::class => static function (ContainerInterface $c): GetPraticienByIdAction {
-        return new GetPraticienByIdAction($c->get(Client::class), $c->get('settings')['toubilib_api']['base_uri']);
-    },
-
-    GetRdvPraticienAction::class => static function (ContainerInterface $c): GetRdvPraticienAction {
-        return new GetRdvPraticienAction($c->get(Client::class), $c->get('settings')['toubilib_api']['base_uri']);
+    ProxyApiAction::class => static function (ContainerInterface $c): ProxyApiAction {
+        return new ProxyApiAction($c->get(Client::class), $c->get('settings')['toubilib_api']['base_uri']);
     },
 ];
