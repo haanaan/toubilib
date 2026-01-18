@@ -1,0 +1,13 @@
+{
+    "name": "toubilib/app-rdv",
+    "description": "Microservice rendez vous",
+    "require": {
+        "slim/slim": "^4.0",
+        "slim/psr7": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "AppRdv\\": "src/"
+        }
+    }
+}

@@ -53,6 +53,22 @@ services:
     environment:
       - COMPOSER_ALLOW_SUPERUSER=1
 
+  app-rdv:
+    build:
+      context: ./app-rdv
+      dockerfile: Dockerfile
+    volumes:
+      - ./app-rdv:/var/www/html
+    working_dir: /var/www/html
+    ports:
+      - "8083:8080"
+    networks:
+      - toubilib.net
+    depends_on:
+      - toubirdv.db
+    environment:
+      - COMPOSER_ALLOW_SUPERUSER=1
+
     # service toubiprat.db : base de données postgresql pour les praticiens
 
   toubiprati.db:

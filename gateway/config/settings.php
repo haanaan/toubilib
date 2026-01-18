@@ -9,7 +9,11 @@ return [
             'timeout' => 5,
         ],
         'app_praticiens' => [
-            'base_uri' => 'http://app-praticiens',
+            'base_uri' => 'http://app-praticiens:8080',
+            'timeout' => 5,
+        ],
+        'app_rdv' => [
+            'base_uri' => 'http://app-rdv:8080',
             'timeout' => 5,
         ],
     ],

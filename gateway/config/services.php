@@ -14,7 +14,8 @@ return [
         return new ProxyApiAction(
             $c->get(Client::class),
             $settings['toubilib_api']['base_uri'],
-            $settings['app_praticiens']['base_uri']
+            $settings['app_praticiens']['base_uri'],
+            $settings['app_rdv']['base_uri']
         );
     },
 ];
