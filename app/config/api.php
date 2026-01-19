@@ -6,11 +6,19 @@ use toubilib\api\actions\{
     ListerPraticiensAction,
     GetPraticienAction,
     GetCreneauxPraticienAction,
-    GetRendezVousAction
+    GetRendezVousAction,
+    CreerRendezVousAction,
+    AnnulerRendezVousAction,
+    UpdateEtatRendezVousAction,
+    ConsulterAgendaAction,
+    HistoriquePatientAction,
+    SearchPraticiensAction,
+    CreerIndisponibiliteAction
 };
 use toubilib\core\application\ports\api\{
     PraticienServiceInterface,
-    AgendaPraticienServiceInterface
+    AgendaPraticienServiceInterface,
+    RendezVousServiceInterface
 };
 
 return [
@@ -28,4 +36,7 @@ return [
 
     GetRendezVousAction::class => static fn(ContainerInterface $c)
         => new GetRendezVousAction($c->get(AgendaPraticienServiceInterface::class)),
+
+    CreerRendezVousAction::class => static fn(ContainerInterface $c)
+        => new CreerRendezVousAction($c->get(RendezVousServiceInterface::class)),
 ];

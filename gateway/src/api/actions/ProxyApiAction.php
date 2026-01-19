@@ -28,11 +28,21 @@ class ProxyApiAction
             $path = $uri->getPath();
             $query = $uri->getQuery();
 
-            if (preg_match('#^/praticiens($|/)#', $path)) {
+            // Router vers le bon microservice
+            if (preg_match('#^/praticiens/[^/]+/agenda#', $path)) {
+                // Route agenda -> api.toubilib (contient les RDV)
+                $baseUrl = $this->apiBaseUrl;
+            } elseif (preg_match('#^/rendezvous($|/)#', $path)) {
+                // Routes rendez-vous -> api.toubilib
+                $baseUrl = $this->apiBaseUrl;
+            } elseif (preg_match('#^/praticiens($|/)#', $path)) {
+                // Autres routes praticiens -> app-praticiens
                 $baseUrl = $this->praticiensBaseUrl;
             } elseif (preg_match('#^/rdv($|/)#', $path)) {
-                $baseUrl = $this->rdvBaseUrl;
+                // Routes rdv génériques -> api.toubilib
+                $baseUrl = $this->apiBaseUrl;
             } else {
+                // Autres routes -> api principale
                 $baseUrl = $this->apiBaseUrl;
             }
 
@@ -41,6 +51,7 @@ class ProxyApiAction
                 $targetUrl .= '?' . $query;
             }
 
+            // Préparer les options de la requête
             $options = [
                 'http_errors' => false,
                 'headers' => $request->getHeaders(),
@@ -49,6 +60,7 @@ class ProxyApiAction
                 $options['body'] = $request->getBody()->getContents();
             }
 
+            // Faire la requête au microservice
             $apiResponse = $this->client->request($method, $targetUrl, $options);
             $body = (string) $apiResponse->getBody();
             $response->getBody()->write($body);

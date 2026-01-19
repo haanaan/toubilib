@@ -28,15 +28,12 @@ use toubilib\core\application\usecases\{
     RendezVousService,
     AgendaPraticienService,
     AuthnService,
-    RendezVousAuthzService,
-    RegisterPatientService
+    RendezVousAuthzService
 };
 
 use toubilib\api\actions\{
     ConsulterAgendaAction,
-    SigninAction,
-    HistoriquePatientAction,
-    RegisterPatientAction
+    HistoriquePatientAction
 
 };
 
@@ -116,8 +113,6 @@ return [
             $c->get(JwtService::class)
         ),
 
-    SigninAction::class => static fn($c) => new SigninAction($c->get(AuthnProvider::class)),
-
     AuthnMiddleware::class => static fn(ContainerInterface $c) =>
         new AuthnMiddleware(
             $c->get(JwtService::class)
@@ -130,10 +125,10 @@ return [
             $c->get(RendezVousRepositoryInterface::class)
         ),
 
-    RendezVousAuthzMiddleware::class => static fn($c)
-        => new RendezVousAuthzMiddleware(
-            $c->get(RendezVousAuthzServiceInterface::class)
-        ),
+    RendezVousAuthzMiddleware::class => static fn($c) => new RendezVousAuthzMiddleware(
+        $c->get(RendezVousAuthzServiceInterface::class),
+        $c->get('settings')['jwt']['secret']
+    ),
     UpdateEtatRendezVousAction::class => static fn($c)
     => new UpdateEtatRendezVousAction($c->get(RendezVousServiceInterface::class)),
     
@@ -141,11 +136,6 @@ return [
         => new HistoriquePatientAction(
             $c->get(RendezVousServiceInterface::class)
         ),
-    RegisterPatientService::class => static fn(ContainerInterface $c) =>
-        new RegisterPatientService($c->get(UserRepositoryInterface::class)),
-
-    RegisterPatientAction::class => static fn(ContainerInterface $c) =>
-        new RegisterPatientAction($c->get(RegisterPatientService::class)),
         
     SearchPraticiensAction::class => static fn($c) =>
     new SearchPraticiensAction(

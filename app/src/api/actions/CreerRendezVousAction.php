@@ -17,15 +17,36 @@ class CreerRendezVousAction
 
     public function __invoke(Request $request, Response $response, array $args = []): Response
     {
-        $profile = $request->getAttribute('userProfile');
-
-        $dto = $request->getAttribute('inputRendezVousDTO');
-
-        if (!($dto instanceof InputRendezVousDTO)) {
-            return $this->json($response, ['error' => "Données d'entrée manquantes ou invalides."], 400);
-        }
-
         try {
+            $profile = $request->getAttribute('userProfile');
+            $data = $request->getParsedBody();
+
+            if (!$data || !is_array($data)) {
+                return $this->json($response, ['error' => "Données d'entrée manquantes ou invalides.", 'received' => $data], 400);
+            }
+
+            // Créer le DTO depuis les données reçues
+            // Calculer la fin si non fournie (début + durée)
+            $debut = $data['date_heure_debut'] ?? '';
+            $duree = $data['duree'] ?? 30;
+            $fin = $data['date_heure_fin'] ?? null;
+            
+            if (!$fin && $debut) {
+                $debutDateTime = new \DateTime($debut);
+                $debutDateTime->add(new \DateInterval('PT' . $duree . 'M'));
+                $fin = $debutDateTime->format('Y-m-d H:i:s');
+            }
+            
+            $dto = new InputRendezVousDTO(
+                id: $data['id'] ?? \Ramsey\Uuid\Uuid::uuid4()->toString(),
+                praticienId: $data['praticien_id'] ?? '',
+                debut: $debut,
+                fin: $fin ?? '',
+                motif: $data['motif_visite'] ?? '',
+                patientId: $data['patient_id'] ?? '',
+                patientEmail: $data['patient_email'] ?? ''
+            );
+
             $this->service->creerRendezVous($dto);
 
             $payload = [
@@ -42,6 +63,7 @@ class CreerRendezVousAction
                 ->withHeader('Location', $location);
         } catch (\Exception $e) {
             $msg = $e->getMessage();
+            $trace = $e->getTraceAsString();
             $status = 400;
             if (stripos($msg, 'inexistant') !== false) {
                 $status = 404;
@@ -49,7 +71,7 @@ class CreerRendezVousAction
                 $status = 409;
             }
 
-            return $this->json($response, ['error' => $msg], $status);
+            return $this->json($response, ['error' => $msg, 'trace' => $trace], $status);
         }
     }
 

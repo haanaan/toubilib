@@ -11,9 +11,7 @@ use toubilib\api\actions\{
     UpdateEtatRendezVousAction,
     CreerRendezVousAction,
     ConsulterAgendaAction,
-    SigninAction,
     HistoriquePatientAction,
-    RegisterPatientAction,
     SearchPraticiensAction,
     CreerIndisponibiliteAction
 };
@@ -27,24 +25,25 @@ return function (App $app): void {
         $res->getBody()->write('Bienvenue dans Toubilib API') ? $res : $res
     );
 
+    // Routes praticiens
     $app->get('/praticiens', ListerPraticiensAction::class);
     $app->get('/praticiens/search', SearchPraticiensAction::class);
     $app->get('/praticiens/{id}', GetPraticienAction::class);
     $app->get('/praticiens/{id}/creneaux', GetCreneauxPraticienAction::class)->add(AuthnMiddleware::class);
-    $app->get('/rendezvous/{id}', GetRendezVousAction::class)
-        ->add(RendezVousAuthzMiddleware::class)
-        ->add(AuthnMiddleware::class);
-    $app->delete('/rendezvous/{id}', AnnulerRendezVousAction::class)->add(AuthnMiddleware::class);
-    $app->get('/praticiens/{id}/agenda', ConsulterAgendaAction::class);
-    //->add(RendezVousAuthzMiddleware::class)
-    //->add(AuthnMiddleware::class);
-    $app->post('/rendezvous', CreerRendezVousAction::class)->add(AuthnMiddleware::class);
-    $app->patch('/rdv/{id}/etat', UpdateEtatRendezVousAction::class)->add(AuthnMiddleware::class);
-    $app->post('/auth/signin', SigninAction::class);
-    $app->get('/patients/{id}/historique', HistoriquePatientAction::class)
-        ->add(AuthnMiddleware::class);
-    $app->post('/patients/register', RegisterPatientAction::class);
+    $app->get('/praticiens/{id}/agenda', ConsulterAgendaAction::class)
+        ->add(RendezVousAuthzMiddleware::class);
     $app->post('/praticiens/{id}/indisponibilites', CreerIndisponibiliteAction::class)
         ->add(AuthnMiddleware::class);
 
+    // Routes rendez-vous
+    $app->get('/rendezvous/{id}', GetRendezVousAction::class)
+        ->add(RendezVousAuthzMiddleware::class);
+    $app->delete('/rendezvous/{id}', AnnulerRendezVousAction::class)->add(AuthnMiddleware::class);
+    $app->post('/rendezvous', CreerRendezVousAction::class)
+        ->add(RendezVousAuthzMiddleware::class);
+    $app->patch('/rdv/{id}/etat', UpdateEtatRendezVousAction::class)->add(AuthnMiddleware::class);
+
+    // Routes patients
+    $app->get('/patients/{id}/historique', HistoriquePatientAction::class)
+        ->add(AuthnMiddleware::class);
 };

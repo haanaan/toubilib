@@ -8,6 +8,10 @@ return [
             'base_uri' => 'http://api.toubilib',
             'timeout' => 5,
         ],
+        'app_auth' => [
+            'base_uri' => 'http://app-auth',
+            'timeout' => 5,
+        ],
         'app_praticiens' => [
             'base_uri' => 'http://app-praticiens:8080',
             'timeout' => 5,
