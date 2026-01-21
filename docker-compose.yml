@@ -138,5 +138,57 @@ services:
         - toubilib.net
       volumes:
         - ./sql:/var/sql
+  rabbitmq:
+    image: rabbitmq:4-management
+    #    build:
+    #      context: build
+    #      dockerfile: rabbit-stomp.Dockerfile
+    ports:
+      - '15672:15672'
+      #      - '15674:15674'
+      - '5672:5672'
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 8s
+      timeout: 30s
+      retries: 3
+    networks:
+      - toubilib.net
+    volumes:
+      - ./rabbitmq.toubi:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=toubi
+      - RABBITMQ_DEFAULT_PASS=toubi
+  
+  producer:
+    image: python:3.12
+    working_dir: /app
+    volumes:
+      - ./producer:/app
+    command: ["sh", "-c", "pip install -r requirements.txt && python producer.py"]
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - toubilib.net
 
-      
+  consumer:
+    image: python:3.12
+    working_dir: /app
+    volumes:
+      - ./consumer:/app
+    command: ["sh", "-c", "pip install -r requirements.txt && python consumer.py"]
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - toubilib.net
+  
+  mail.toubi:
+    build:
+      context: build
+      dockerfile: mailcatcher.Dockerfile
+    networks:
+      - toubilib.net
+    ports:
+      - '1080:1080'
