@@ -3,7 +3,8 @@
     "description": "Microservice de consommation des notifications RDV",
     "require": {
         "php": ">=8.0",
-        "php-amqplib/php-amqplib": "^3.0"
+        "php-amqplib/php-amqplib": "^3.0",
+        "symfony/mailer": "^7.0"
     },
     "autoload": {
         "psr-4": {
