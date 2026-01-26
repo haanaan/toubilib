@@ -184,6 +184,20 @@ services:
     networks:
       - toubilib.net
   
+  mailer:
+    build:
+      context: ./mailer
+      dockerfile: Dockerfile
+    volumes:
+      - ./mailer:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - toubilib.net
+    command: ["php", "consume_notifications.php"]
+
   mail.toubi:
     build:
       context: build

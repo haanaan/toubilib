@@ -1,0 +1,13 @@
+{
+    "name": "toubilib/mailer",
+    "description": "Microservice de consommation des notifications RDV",
+    "require": {
+        "php": ">=8.0",
+        "php-amqplib/php-amqplib": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mailer\\": "src/"
+        }
+    }
+}
