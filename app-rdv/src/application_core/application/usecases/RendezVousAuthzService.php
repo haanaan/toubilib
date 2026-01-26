@@ -50,12 +50,9 @@ class RendezVousAuthzService implements RendezVousAuthzServiceInterface
         $role = $profile->role;
         $userId = (string) $profile->id;
 
-        // Un praticien peut créer un RDV pour lui-même
         if ($role === 'praticien') {
             return isset($data['praticien_id']) && $data['praticien_id'] === $userId;
         }
-
-        // Un patient peut créer un RDV pour lui-même
         if ($role === 'patient') {
             return isset($data['patient_id']) && $data['patient_id'] === $userId;
         }

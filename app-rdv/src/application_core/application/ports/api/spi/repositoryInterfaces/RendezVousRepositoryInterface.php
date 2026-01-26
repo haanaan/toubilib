@@ -6,4 +6,5 @@ namespace AppRdv\core\application\ports\api\spi\repositoryInterfaces;
 interface RendezVousRepositoryInterface
 {
     public function findById(string $id): ?object;
+    public function save(array $rdv): void;
 }

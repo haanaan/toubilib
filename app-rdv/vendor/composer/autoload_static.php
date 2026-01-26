@@ -8,11 +8,16 @@ class ComposerStaticInitaf649eb825938a039c8371d43b5eb5ac
 {
     public static $files = array (
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
+        'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'b33e3d135e5d9e47d845c576147bda89' => __DIR__ . '/..' . '/php-di/php-di/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'p' =>
+        array (
+            'phpseclib\\' => 10,
+        ),
         'S' =>
         array (
             'Slim\\Psr7\\' => 10,
@@ -24,6 +29,7 @@ class ComposerStaticInitaf649eb825938a039c8371d43b5eb5ac
             'Psr\\Http\\Server\\' => 16,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
+            'PhpAmqpLib\\' => 11,
         ),
         'L' =>
         array (
@@ -50,6 +56,10 @@ class ComposerStaticInitaf649eb825938a039c8371d43b5eb5ac
     );
 
     public static $prefixDirsPsr4 = array (
+        'phpseclib\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
+        ),
         'Slim\\Psr7\\' =>
         array (
             0 => __DIR__ . '/..' . '/slim/psr7/src',
@@ -75,6 +85,10 @@ class ComposerStaticInitaf649eb825938a039c8371d43b5eb5ac
         'Psr\\Container\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'PhpAmqpLib\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/php-amqplib/php-amqplib/PhpAmqpLib',
         ),
         'Laravel\\SerializableClosure\\' =>
         array (
@@ -106,16 +120,6 @@ class ComposerStaticInitaf649eb825938a039c8371d43b5eb5ac
         ),
     );
 
-    public static $prefixesPsr0 = array (
-        'P' =>
-        array (
-            'PhpAmqpLib' =>
-            array (
-                0 => __DIR__ . '/..' . '/php-amqplib/php-amqplib',
-            ),
-        ),
-    );
-
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
@@ -125,7 +129,6 @@ class ComposerStaticInitaf649eb825938a039c8371d43b5eb5ac
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitaf649eb825938a039c8371d43b5eb5ac::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitaf649eb825938a039c8371d43b5eb5ac::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitaf649eb825938a039c8371d43b5eb5ac::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitaf649eb825938a039c8371d43b5eb5ac::$classMap;
 
         }, null, ClassLoader::class);

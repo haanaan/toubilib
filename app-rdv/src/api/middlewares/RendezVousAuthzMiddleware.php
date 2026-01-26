@@ -28,25 +28,19 @@ class RendezVousAuthzMiddleware implements MiddlewareInterface
 
     public function process(Request $request, RequestHandler $handler): Response
     {
-        // Extraire le token de l'en-tête Authorization
         $authHeader = $request->getHeaderLine('Authorization');
-        
+
         if (empty($authHeader)) {
             throw new HttpUnauthorizedException($request, 'Missing Authorization header');
         }
-
-        // Vérifier le format Bearer
         if (!preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
             throw new HttpUnauthorizedException($request, 'Invalid Authorization header format');
         }
 
         $token = $matches[1];
 
-        // Décoder le token JWT (pas besoin de valider, c'est fait par la gateway)
         try {
             $decoded = JWT::decode($token, new Key($this->jwtSecret, 'HS256'));
-            
-            // Créer le profil utilisateur depuis le token
             $profile = new UserProfileDTO(
                 id: (string) $decoded->sub,
                 email: $decoded->email ?? '',
@@ -57,7 +51,6 @@ class RendezVousAuthzMiddleware implements MiddlewareInterface
             throw new HttpUnauthorizedException($request, 'Invalid token: ' . $e->getMessage());
         }
 
-        // Récupérer le contexte de la route
         $routeContext = RouteContext::fromRequest($request);
         $route = $routeContext->getRoute();
 
@@ -71,7 +64,6 @@ class RendezVousAuthzMiddleware implements MiddlewareInterface
 
         $authorized = false;
 
-        // Vérifier les autorisations selon la route
         if ($pattern === '/rendezvous/{id}' && $method === 'GET') {
             $rdvId = $args['id'] ?? null;
             if ($rdvId === null) {
@@ -97,7 +89,6 @@ class RendezVousAuthzMiddleware implements MiddlewareInterface
             throw new HttpForbiddenException($request, 'Forbidden: insufficient permissions');
         }
 
-        // Ajouter le profil utilisateur à la requête pour les actions suivantes
         $request = $request->withAttribute('userProfile', $profile);
 
         return $handler->handle($request);

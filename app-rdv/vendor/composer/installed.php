@@ -47,9 +47,9 @@
             'dev_requirement' => false,
         ),
         'php-amqplib/php-amqplib' => array(
-            'pretty_version' => 'v2.0.2',
-            'version' => '2.0.2.0',
-            'reference' => '682e3365f51c455f7a0bd32173d79922416fe9f0',
+            'pretty_version' => 'v2.12.1',
+            'version' => '2.12.1.0',
+            'reference' => '0eaaa9d5d45335f4342f69603288883388c2fe21',
             'type' => 'library',
             'install_path' => __DIR__ . '/../php-amqplib/php-amqplib',
             'aliases' => array(),
@@ -70,6 +70,15 @@
             'reference' => 'f88054cc052e40dbe7b383c8817c19442d480352',
             'type' => 'library',
             'install_path' => __DIR__ . '/../php-di/php-di',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'phpseclib/phpseclib' => array(
+            'pretty_version' => '2.0.50',
+            'version' => '2.0.50.0',
+            'reference' => '1815ddd00195487cc922577751c175f339f4e20f',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpseclib/phpseclib',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -180,6 +189,12 @@
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
+        ),
+        'videlalvaro/php-amqplib' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => 'v2.12.1',
+            ),
         ),
     ),
 );
